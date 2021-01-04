@@ -4,52 +4,8 @@ import calendar
 from pathlib import Path
 from typing import Iterator, Tuple
 
-import boto3  # type: ignore
+import boto3  
 import pandas as pd
-
-# Get last day of previous month
-LAST_MONTH_DATE = datetime.datetime.now().replace(day=1) - datetime.timedelta(days=1)
-
-
-def get_years() -> Iterator[int]:
-    """Helper generator to iterate over years.
-
-    Get applicable years for dataset collection.
-
-    Yields:
-        Iterable[int]: Iterable of year integers.
-    """
-    if os.getenv("RUN_IN_AUTOMATION", False):
-        yield from [LAST_MONTH_DATE.year]
-    else:
-        yield from range(2018, datetime.datetime.now().year + 1)
-
-
-def get_months() -> Iterator[int]:
-    """Helper generator to iterate over months.
-
-    Get applicable months for dataset collection.
-
-    Yields:
-        Iterator[int]: Iterable of months integers.
-    """
-    if os.getenv("RUN_IN_AUTOMATION", False):
-        yield from [LAST_MONTH_DATE.month]
-    else:
-        yield from range(1, 13)
-
-
-def get_month_name(month_int: int) -> str:
-    """Lookup calendar for given month integer and return its name.
-
-    Args:
-        month_int (int): Calendar month integer.
-
-    Returns:
-        str: Month name.
-    """
-    with calendar.different_locale('C'):  # type: ignore
-        return calendar.month_name[month_int]
 
 
 def upload_files(files: Iterator[Tuple[str, str]]) -> None:
