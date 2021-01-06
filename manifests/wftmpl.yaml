@@ -1,33 +1,62 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: <CHANGE_ME>
+  name: mailing-list-analysis-toolkit
 spec:
   entrypoint: entrypoint
   templates:
-    # - name: entrypoint
-    #   steps:
-    #     - - name: data-collection
-    #         template: data-collection
-    #     - - name: analysis
-    #         template: analysis
-    #
-    # - name: data-collection
-    #   dag:
-    #     tasks:
-    #       - name: collect-raw-data
-    #         template: notebook-executor
-    #         arguments:
-    #           parameters: [{name: notebook, value: <PATH_WITHIN_NOTEBOOKS_FOLDER>}]
-    #       - ...
-    #
-    # - name: analysis
-    #   steps:
-    #     - - name: contributor-analysis
-    #         template: notebook-executor
-    #         arguments:
-    #           parameters: [{name: notebook, value: <PATH_WITHIN_NOTEBOOKS_FOLDER>}]
-    #       - ...
+    - name: entrypoint
+      steps:
+        - - name: data-collection
+            template: data-collection
+        - - name: analysis
+            template: analysis
+
+    - name: data-collection
+      dag:
+        tasks:
+          - name: collect-raw-data
+            template: notebook-executor
+            arguments:
+              parameters: [{ name: notebook, value: stage/collect_data.ipynb }]
+
+          - name: download-dataset
+            template: notebook-executor
+            arguments:
+              parameters:
+                [{ name: notebook, value: stage/download_datasets.ipynb }]
+
+          - name: decompress-gzip-to-raw-data
+            dependencies: [collect-raw-data]
+            template: notebook-executor
+            arguments:
+              parameters: [{ name: notebook, value: stage/gz_to_raw.ipynb }]
+
+          - name: parse-raw-to-metadata-dataset
+            dependencies: [decompress-gzip-to-raw-data]
+            template: notebook-executor
+            arguments:
+              parameters: [{ name: notebook, value: stage/raw_to_meta.ipynb }]
+
+          - name: parse-raw-to-text-dataset
+            dependencies: [decompress-gzip-to-raw-data]
+            template: notebook-executor
+            arguments:
+              parameters: [{ name: notebook, value: stage/raw_to_text.ipynb }]
+
+    - name: analysis
+      steps:
+        - - name: contributor-analysis
+            template: notebook-executor
+            arguments:
+              parameters:
+                [{ name: notebook, value: stage/contributor_analysis.ipynb }]
+
+          - name: keyword-analysis
+            template: notebook-executor
+            arguments:
+              parameters:
+                [{ name: notebook, value: stage/keyword_analysis.ipynb }]
 
     - name: notebook-executor
       inputs:
@@ -41,16 +70,16 @@ spec:
               none: {}
             s3:
               endpoint: s3.upshift.redhat.com:443
-              bucket: <CHANGE_ME>
-              key: "production_data/rendered_notebooks/{{inputs.parameters.notebook}}"
+              bucket: DH-PLAYPEN
+              key: "mcliffor/fedora_devel_mail/production_data/rendered_notebooks/{{inputs.parameters.notebook}}"
               accessKeySecret:
                 key: access-key-id
-                name: <SECRET_NAME>
+                name: mailing-list-analysis-toolkit
               secretKeySecret:
                 key: secret-access-key
-                name: <SECRET_NAME>
+                name: mailing-list-analysis-toolkit
       container:
-        image: <CHANGE_ME>:latest
+        image: mailing-list-analysis-toolkit:latest
         command: [jupyter-nbconvert]
         args:
           - --config
@@ -74,26 +103,35 @@ spec:
             valueFrom:
               secretKeyRef:
                 key: path
-                name: <SECRET_NAME>
+                name: mailing-list-analysis-toolkit
           - name: S3_BUCKET
             valueFrom:
               secretKeyRef:
                 key: bucket
-                name: <SECRET_NAME>
+                name: mailing-list-analysis-toolkit
           - name: AWS_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:
                 key: access-key-id
-                name: <SECRET_NAME>
+                name: mailing-list-analysis-toolkit
           - name: AWS_SECRET_ACCESS_KEY
             valueFrom:
               secretKeyRef:
                 key: secret-access-key
-                name: <SECRET_NAME>
+                name: mailing-list-analysis-toolkit
         resources:
           requests:
             cpu: 500m
             memory: 1Gi
           limits:
-            cpu: '2'
+            cpu: "2"
             memory: 4Gi
+
+  volumeClaimTemplates:
+    - metadata:
+        name: local-data-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi

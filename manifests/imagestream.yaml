@@ -1,7 +1,7 @@
 kind: ImageStream
 apiVersion: image.openshift.io/v1
 metadata:
-  name: <CHANGE_ME>
+  name: mailing-list-analysis-toolkit
 spec:
   lookupPolicy:
     local: true
@@ -9,4 +9,6 @@ spec:
     - name: latest
       from:
         kind: DockerImage
-        name: <QUAY_IMAGE_URL>
+        name: quay.io/aicoe/mailing-list-analysis-toolkit
+      importPolicy:
+        scheduled: true
