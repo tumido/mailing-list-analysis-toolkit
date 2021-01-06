@@ -1,10 +1,8 @@
 import os
-import datetime
-import calendar
 from pathlib import Path
 from typing import Iterator, Tuple
 
-import boto3  
+import boto3
 import pandas as pd
 
 

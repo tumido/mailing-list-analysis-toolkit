@@ -4,13 +4,16 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-flake8 = "*"
-coverage = "*"
-Sphinx = "*"
+ipython = "*"
 
 [packages]
-src = {editable = true, path = "./"}
-awscli = "*"
+pandas = "*"
+nbconvert = "*"
+jupyter = "*"
+boto3 = "*"
+wget = "*"
+python-dotenv = "*"
+sklearn = "*"
 
 [requires]
 python_version = "3.8"
