@@ -1,3 +1,5 @@
+"""Utils module for shared functions across Jupyter notebooks."""
+
 import os
 from pathlib import Path
 from typing import Iterator, Tuple
@@ -33,7 +35,8 @@ def upload_files(files: Iterator[Tuple[str, str]]) -> None:
         s3.upload_file(Filename=path, Bucket=s3_bucket_name, Key=f"{s3_path}/{key}")
         print("Done")
 
-def load_dataset(path:str) -> pd.DataFrame:
+
+def load_dataset(path: str) -> pd.DataFrame:
     """Load all dataset chunks in a folder.
 
     Get all dataset chunks in a folder and concat them into a single DataFrame.
@@ -44,5 +47,7 @@ def load_dataset(path:str) -> pd.DataFrame:
     Returns:
         pd.DataFrame: Concatenated DataFrame containing all chunks.
     """
-    dataset_chunks_df = (pd.read_csv(f, index_col='Unnamed: 0') for f in Path(path).glob("*.csv"))
+    dataset_chunks_df = (
+        pd.read_csv(f, index_col="Unnamed: 0") for f in Path(path).glob("*.csv")
+    )
     return pd.concat(dataset_chunks_df, ignore_index=True)
