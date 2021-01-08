@@ -20,6 +20,8 @@ managers:
     configuration:
       maintainers:
         - tumido
+        - harshad16
+        - MichaelClifford
       assignees:
         - sesheta
       labels: [bot]
