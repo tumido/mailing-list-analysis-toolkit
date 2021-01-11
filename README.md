@@ -4,7 +4,7 @@ This repository contains example code for how to develop a custom end-to-end ema
 
 #
 ## Project Assumptions
-This repository assumes that you have an existing Open Data Hub deployed on OpenShift that includes, JupyterHub, Argo CD, Ceph, Hive, Hue and Superset.
+This repository assumes that you have an existing Open Data Hub deployed on OpenShift that includes, JupyterHub, Argo, Ceph, Hive, Cloudera Hue and Apache Superset.
 
 * Take a look at [opendatahub.io](https://www.opendatahub.io) for details on the open data hub platform.
 * Details of our existing public deployment can be found at [operate-first.cloud](https://www.operate-first.cloud/).
