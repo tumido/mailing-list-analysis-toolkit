@@ -2,8 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 commonLabels:
-  app.kubernetes.io/name: <CHANGE_ME>
-  app.kubernetes.io/component: <CHANGE_ME>
+  app.kubernetes.io/name: fedora-mailing-list-analysis
+  app.kubernetes.io/component: mailing-list-analysis-toolkit
   app.kubernetes.io/part-of: aiops-analytics
   app.kubernetes.io/managed-by: aicoe-aiops-devops-argocd
 
@@ -14,14 +14,14 @@ resources:
   - wftmpl.yaml
 
 generators:
-  - ksops.yaml
+  - secret-generator.yaml
 
 patchesJson6902:
-- patch: &patch |
-    - op: remove
-      path: /metadata/name
-  target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Workflow
-    name: ignored
+  - patch: &patch |
+      - op: remove
+        path: /metadata/name
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Workflow
+      name: ignored
