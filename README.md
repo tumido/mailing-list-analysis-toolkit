@@ -28,7 +28,7 @@ At a high level, this application can be seen as an [Argo Workflow](https://argo
 
 The primary output and user interface for this application is a [Superset](https://superset.apache.org/) dashboard. This tool allows us to define certain data visualization elements from our analysis that we would like to publish and share with others, while also including enough flexibility and interactivity to allow users to explore the data themselves.
 
-If our application is working correctly, it should regularly and automatically re-run the analyses and ensure that the dashboard and all its plots are current and up to date.
+Our application is designed to automatically re-run the analyses on regular basis and ensure that the dashboard and all its plots are current and up to date.
 
 * Current [Superset Dashboard](https://superset.datahub.redhat.com/superset/dashboard/fedora_mail/) can be found here.
 
