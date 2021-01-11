@@ -19,7 +19,7 @@ The purpose of this project is to develop and maintain an open source NLP applic
 
 ### **Application Overview**
 
-At a high level, this application can be seen as an Argo workflow which orchestrates a set of jupyter notebooks to push transformed data to Ceph. Each notebook is responsible for a single task and is used either for collecting raw data from the Fedora hyperkitty archive (our live data set), preprocessing that data, or performing some specific analytics task. In almost all cases, the notebooks both push their outputs to Ceph remote storage (for use in a future run) as well as maintain a local copy within the application pod for use by other notebook processes. Finally we use external tables in Apache Hive, with Hue, to connect the Ceph data to a SQL database for interactive visualization with Superset.
+At a high level, this application can be seen as an [Argo Workflow](https://argoproj.github.io/argo/) which orchestrates a set of Jupyter notebooks to push transformed data to Ceph. Each notebook is responsible for a single task and is used either for collecting raw data from the [Fedora HyperKitty mailing list archive](https://lists.fedoraproject.org/archives/) (our live data set), preprocessing that data, or performing some specific analytics task. In almost all cases, the notebooks both push their outputs to Ceph remote storage (for use in a future run) as well as maintain a local copy within a shared volume among the application's pods for use by other notebook processes. Finally we use external tables in Apache Hive, with Hue, to connect the Ceph data to a SQL database for interactive visualization with Superset.
 
 ![](docs/assets/images/app-overview.png)
 
