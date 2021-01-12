@@ -10,3 +10,13 @@
 * fix: Make linters happy again
 ### Bug Fixes
 * chore: Add custom tag and fix type in CI config (#13)
+
+## Release 1.0.1 (2021-01-12T09:26:40)
+### Features
+* :arrow_up: Automatic update of dependencies by kebechet. (#23)
+* set keyword analysis to only update the most recent months data
+* Update README.md
+* Update README.md
+* Update README.md
+* feat: Add Argo workflow automation (#7)
+* update Readme
