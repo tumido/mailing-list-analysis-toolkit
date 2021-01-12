@@ -56,15 +56,20 @@ spec:
             template: notebook-executor
             arguments:
               parameters:
-                [{ name: notebook, value: stage/keyword_analysis.ipynb }]
+                - name: notebook
+                  value: stage/keyword_analysis.ipynb
+                - name: memory-limit
+                  value: 20Gi
 
     - name: notebook-executor
       inputs:
         parameters:
           - name: notebook
+          - name: memory-limit
+            value: 4Gi
       outputs:
         artifacts:
-          - name: rendered_notebook
+          - name: "{{inputs.parameters.notebook}}"
             path: "/mnt/data/notebooks/{{inputs.parameters.notebook}}"
             archive:
               none: {}
@@ -78,15 +83,14 @@ spec:
               secretKeySecret:
                 key: secret-access-key
                 name: mailing-list-analysis-toolkit
+      podSpecPatch: '{"containers":[{"name":"main", "resources":{"limits":{"memory": "{{inputs.parameters.memory-limit}}" }}}]}'
       container:
         image: mailing-list-analysis-toolkit:latest
-        command: [jupyter-nbconvert]
+        command: [./notebook-executor.sh]
         args:
-          - --config
-          - .jupyter/jupyter_nbconvert_config.py
-          - "notebooks/{{inputs.parameters.notebook}}"
-        # If using different image than built by https://github.com/AICoE/s2i-custom-notebook, please change or remote the workingDir settings
-        workingDir: /opt/app-root/backup
+          - "notebooks/{{inputs.parameters.notebook}}" # input
+          - "/mnt/data/notebooks/{{inputs.parameters.notebook}}" # output
+        workingDir: /opt/app-root/src
         volumeMounts:
           - name: local-data-storage
             mountPath: /mnt/data
@@ -95,8 +99,6 @@ spec:
             value: /mnt/data
           - name: RUN_IN_AUTOMATION
             value: "true"
-          - name: NOTEBOOK_NAME
-            value: "{{inputs.parameters.notebook}}"
           - name: S3_ENDPOINT_URL
             value: https://s3.upshift.redhat.com
           - name: S3_PROJECT_KEY
@@ -131,7 +133,8 @@ spec:
     - metadata:
         name: local-data-storage
       spec:
-        accessModes: ["ReadWriteOnce"]
+        accessModes:
+          - ReadWriteMany
         resources:
           requests:
             storage: 10Gi
