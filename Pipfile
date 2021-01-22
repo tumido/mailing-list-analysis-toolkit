@@ -8,12 +8,12 @@ ipython = "*"
 
 [packages]
 pandas = "*"
-nbconvert = "*"
 jupyter = "*"
 boto3 = "*"
 wget = "*"
 python-dotenv = "*"
 sklearn = "*"
+papermill = "*"
 
 [requires]
 python_version = "3.8"
