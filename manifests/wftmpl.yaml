@@ -18,31 +18,31 @@ spec:
           - name: collect-raw-data
             template: notebook-executor
             arguments:
-              parameters: [{ name: notebook, value: stage/collect_data.ipynb }]
+              parameters: [{ name: notebook, value: 01_collect_data/collect_data.ipynb }]
 
           - name: download-dataset
             template: notebook-executor
             arguments:
               parameters:
-                [{ name: notebook, value: stage/download_datasets.ipynb }]
+                [{ name: notebook, value: 01_collect_data/download_datasets.ipynb }]
 
           - name: decompress-gzip-to-raw-data
             dependencies: [collect-raw-data]
             template: notebook-executor
             arguments:
-              parameters: [{ name: notebook, value: stage/gz_to_raw.ipynb }]
+              parameters: [{ name: notebook, value: 01_collect_data/gz_to_raw.ipynb }]
 
           - name: parse-raw-to-metadata-dataset
             dependencies: [decompress-gzip-to-raw-data]
             template: notebook-executor
             arguments:
-              parameters: [{ name: notebook, value: stage/raw_to_meta.ipynb }]
+              parameters: [{ name: notebook, value: 01_collect_data/raw_to_meta.ipynb }]
 
           - name: parse-raw-to-text-dataset
             dependencies: [decompress-gzip-to-raw-data]
             template: notebook-executor
             arguments:
-              parameters: [{ name: notebook, value: stage/raw_to_text.ipynb }]
+              parameters: [{ name: notebook, value: 01_collect_data/raw_to_text.ipynb }]
 
     - name: analysis
       steps:
@@ -50,14 +50,14 @@ spec:
             template: notebook-executor
             arguments:
               parameters:
-                [{ name: notebook, value: stage/contributor_analysis.ipynb }]
+                [{ name: notebook, value: 02_analyses/contributor_analysis.ipynb }]
 
           - name: keyword-analysis
             template: notebook-executor
             arguments:
               parameters:
                 - name: notebook
-                  value: stage/keyword_analysis.ipynb
+                  value: 02_analyses/keyword_analysis.ipynb
                 - name: memory-limit
                   value: 20Gi
 
