@@ -12,9 +12,7 @@ resources:
   - imagestream.yaml
   - postsync-wf.yaml
   - wftmpl.yaml
-
-generators:
-  - secret-generator.yaml
+  - bucket.yaml
 
 patchesJson6902:
   - patch: &patch |

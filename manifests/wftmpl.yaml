@@ -74,8 +74,8 @@ spec:
             archive:
               none: {}
             s3:
-              endpoint: s3.upshift.redhat.com:443
-              bucket: DH-PLAYPEN
+              endpoint: rook-ceph-rgw-ocs-storagecluster-cephobjectstore.openshift-storage.svc.cluster.local
+              bucket: mailing-list-analysis-toolkit
               key: "mcliffor/fedora_devel_mail/production_data/rendered_notebooks/{{inputs.parameters.notebook}}"
               accessKeySecret:
                 key: access-key-id
@@ -100,26 +100,20 @@ spec:
           - name: RUN_IN_AUTOMATION
             value: "true"
           - name: S3_ENDPOINT_URL
-            value: https://s3.upshift.redhat.com
+            value: rook-ceph-rgw-ocs-storagecluster-cephobjectstore.openshift-storage.svc.cluster.local
           - name: S3_PROJECT_KEY
-            valueFrom:
-              secretKeyRef:
-                key: path
-                name: mailing-list-analysis-toolkit
+            value: ""
           - name: S3_BUCKET
-            valueFrom:
-              secretKeyRef:
-                key: bucket
-                name: mailing-list-analysis-toolkit
+            value: mailing-list-analysis-toolkit
           - name: AWS_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:
-                key: access-key-id
+                key: AWS_ACCESS_KEY_ID
                 name: mailing-list-analysis-toolkit
           - name: AWS_SECRET_ACCESS_KEY
             valueFrom:
               secretKeyRef:
-                key: secret-access-key
+                key: AWS_SECRET_ACCESS_KEY
                 name: mailing-list-analysis-toolkit
         resources:
           requests:
