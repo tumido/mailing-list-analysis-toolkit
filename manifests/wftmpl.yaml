@@ -76,12 +76,12 @@ spec:
             s3:
               endpoint: rook-ceph-rgw-ocs-storagecluster-cephobjectstore.openshift-storage.svc.cluster.local
               bucket: mailing-list-analysis-toolkit
-              key: "mcliffor/fedora_devel_mail/production_data/rendered_notebooks/{{inputs.parameters.notebook}}"
+              key: "production_data/rendered_notebooks/{{inputs.parameters.notebook}}"
               accessKeySecret:
-                key: access-key-id
+                key: AWS_ACCESS_KEY_ID
                 name: mailing-list-analysis-toolkit
               secretKeySecret:
-                key: secret-access-key
+                key: AWS_SECRET_ACCESS_KEY
                 name: mailing-list-analysis-toolkit
       podSpecPatch: '{"containers":[{"name":"main", "resources":{"limits":{"memory": "{{inputs.parameters.memory-limit}}" }}}]}'
       container:
