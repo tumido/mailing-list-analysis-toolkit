@@ -20,3 +20,15 @@
 * Update README.md
 * feat: Add Argo workflow automation (#7)
 * update Readme
+
+## Release 1.1.0 (2021-02-16T10:30:55)
+### Features
+* feat: Fix dependency updater and outputs in Argo wftmpl
+* feat: Use Rook bucket
+* add watson discovery notebook (#42)
+* feat: Use papermill instead of nbconvert (#30)
+* :arrow_up: Automatic update of dependencies by kebechet. (#35)
+* :arrow_up: Automatic update of dependencies by kebechet. (#34)
+* :arrow_up: Automatic update of dependencies by kebechet. (#32)
+### Improvements
+* move notebooks out of 'stage' (#38)
