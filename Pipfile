@@ -16,6 +16,8 @@ sklearn = "*"
 papermill = "*"
 ibm-cloud-sdk-core = "*"
 ibm-watson = "*"
+scikit-learn = "==0.20.3"
+hatesonar = "*"
 
 [requires]
 python_version = "3.6"
