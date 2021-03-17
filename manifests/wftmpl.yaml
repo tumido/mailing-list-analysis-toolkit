@@ -74,7 +74,7 @@ spec:
             archive:
               none: {}
             s3:
-              endpoint: https://rook-ceph-rgw-ocs-storagecluster-cephobjectstore.openshift-storage.svc.cluster.local
+              endpoint: s3.openshift-storage.svc:443
               bucket: mailing-list-analysis-toolkit
               key: "production_data/rendered_notebooks/{{inputs.parameters.notebook}}"
               accessKeySecret:
@@ -100,7 +100,7 @@ spec:
           - name: RUN_IN_AUTOMATION
             value: "true"
           - name: S3_ENDPOINT_URL
-            value: https://rook-ceph-rgw-ocs-storagecluster-cephobjectstore.openshift-storage.svc.cluster.local
+            value: s3.openshift-storage.svc:443
           - name: S3_PROJECT_KEY
             value: ""
           - name: S3_BUCKET
