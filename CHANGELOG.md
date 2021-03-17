@@ -32,3 +32,11 @@
 * :arrow_up: Automatic update of dependencies by kebechet. (#32)
 ### Improvements
 * move notebooks out of 'stage' (#38)
+
+## Release 1.2.0 (2021-03-17T13:18:17)
+### Features
+* feat: Downgrade to Python 3.6 (#53)
+* watson nlu on fedora data (#43)
+* fix: Ceph endpoint and image working dir in the Argo workflow (#50)
+### Other
+* fix: Bucket storage class
